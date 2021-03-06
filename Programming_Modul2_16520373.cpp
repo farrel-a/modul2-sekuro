@@ -129,7 +129,7 @@ int main()
             cout << "Insert coefficient of x^" << i << ": ";
             cin >> arrnum2[N2-i];
         }
-        cout << "Insert lower bound: "; //batas bawah
+        cout << "\nInsert lower bound: "; //batas bawah
         cin >> lb;
         cout << "Insert upper bound: "; //batas atas
         cin >> ub;
