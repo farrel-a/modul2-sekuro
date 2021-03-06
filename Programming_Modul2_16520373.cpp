@@ -2,9 +2,9 @@
 // PROGRAM Kalkulator Sederhana dan Kalkulator Integral
 // MODUL 2 PROGRAMMING SEKURO
 // SPESIFIKASI :
-/*Program kalkulator yang dapat menghitung operasi sederhana dari dua
+/*Program kalkulator yang dapat menghitung operasi sederhana dari
 bilangan integer atau double floating point dan menghitung
-integral tentu menggunakan pendekatan riemann dengan 1000 partisi*/
+integral tentu menggunakan pendekatan riemann dengan P partisi*/
 #include <iostream>
 #include <cmath>
 
@@ -45,14 +45,15 @@ double bcalc (double a, char op, double b)
 // arr1[] : array penyimpan koefisien variabel x pada pembilang (numerator)
 // n2 : derajat polinom penyebut
 // arr2 [] : array penyimpan koefisien variabel x pada penyebut (denominator)
-double integral(double l, double u, int n1, double arr1[], int n2, double arr2[])
+// par : jumlah partisi
+double integral(double l, double u, int n1, double arr1[], int n2, double arr2[], int par)
 {
-    // integral riemann trapesium dengan 1000 partisi
+    // integral riemann trapesium dengan jumlah partisi sesuai masukan
     double f_lowern, f_uppern, f_lowerd, f_upperd, delta, i, result, res_upper, res_lower;
     int j,k;
-    delta = (u-l)/1000;
+    delta = (u-l)/(par);
     result = 0;
-    for (i = 1; i<=1000 ; i++)
+    for (i = 1; i<=par ; i++)
     {
         l+=delta;
         f_lowern = 0;
@@ -83,7 +84,7 @@ double integral(double l, double u, int n1, double arr1[], int n2, double arr2[]
 }
 int main()
 {
-    int N1, N2, i;  // N1 input(N1), N2 input(N2), i bil.int for loop
+    int N1, N2, i, p;  // N1 input(N1), N2 input(N2), i bil.int for loop, p jumlah partisi
     char com,op; // com input command, op input operator
     double n1,n2, iresult, lb, ub; //n1 & n2 : num1 & num2 kalkulator sederhana, iresult : integral result, lb : lower bound, ub : upper bound (integral)
     bool flag; // flag while loop
@@ -98,15 +99,32 @@ int main()
         }
     else if (com == 'c' || com == 'C') //kondisional kalkulator sederhana
     {
-        cout << "\nCommand List for Basic Calculator: " << endl;
-        cout << "'+' for addition\n'-' for substraction\n'*' for multiplication\n'/' for division\n'p' for power" << endl;
+        cout << "\nOperator List for Basic Calculator: " << endl;
+        cout << "'+' for addition\n'-' for substraction\n'*' for multiplication\n'/' for division\n'p' for power\n'e' to exit basic calculator" << endl;
+        bool cflag = true; // flag kalulator sederhana, False jika input operator e (exit calculator)
+        double cresult = 0; //hasil kalkulator sederhana
         cout << "Insert first number: ";
         cin >> n1;
         cout << "Insert operator: ";
         cin >> op;
+        if (op == 'e'||op=='E') {break;}
         cout << "Insert second number: ";
         cin >> n2;
-        cout << "\nResult = " << bcalc(n1, op, n2) << "\n" << endl;  // output kalkulator sederhana
+        cresult += bcalc(n1, op, n2);
+        cout << "\nResult = " << cresult << "\n" << endl;
+        while (cflag)
+        {
+            cout << "Insert operator: ";
+            cin >> op;
+            cout << "Insert next number: ";
+            cin >> n1;
+            if (op=='e'||op=='E'){cflag = false; cout<<endl;}
+            else // cflag = true
+            {
+                cresult = bcalc(cresult, op, n1);
+                cout << "\nResult = " << cresult << "\n" << endl;  // output kalkulator sederhana
+            }
+        }
     }
     else if (com == 'i' || com == 'I') //kondisional kalkulator integral
     {
@@ -133,7 +151,9 @@ int main()
         cin >> lb;
         cout << "Insert upper bound: "; //batas atas
         cin >> ub;
-        iresult = integral(lb, ub, N1, arrnum1, N2, arrnum2);
+        cout << "\nInsert amount of partition: ";
+        cin >> p;
+        iresult = integral(lb, ub, N1, arrnum1, N2, arrnum2, p);
         cout << "\nResult = " << iresult <<"\n"<<endl; // output integral tentu
     }
     else // kondisional input command tidak sesuai
