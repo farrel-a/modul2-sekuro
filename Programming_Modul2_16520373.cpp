@@ -4,7 +4,7 @@
 // SPESIFIKASI :
 /*Program kalkulator yang dapat menghitung operasi sederhana dari dua
 bilangan integer atau double floating point dan menghitung
-integral tentu menggunakan pendekatan riemann dengan 100 partisi*/
+integral tentu menggunakan pendekatan riemann dengan 1000 partisi*/
 #include <iostream>
 #include <cmath>
 
